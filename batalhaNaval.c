@@ -144,5 +144,8 @@ int main()
 
        
     }
+    printf("Obrigado por jogar! Até mais! 👋\n");
+    return 0;
+
 
 }
