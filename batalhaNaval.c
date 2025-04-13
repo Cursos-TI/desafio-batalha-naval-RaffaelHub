@@ -10,17 +10,89 @@ void linha()
 // Constantes do tabuleiro
 #define Linha 10 // 10 linhas no tabuleiro
 #define Coluna 10 // 10 colunas no tabuleiro
+#define habilidade_linha 5
+#define habilidade_coluna 5
 
 
 int main()
 {   // Declarações de variaveis e inicializações
     // Matrizes e valores de posição
     int tabuleiro[Linha][Coluna];
+    int cone[habilidade_linha][habilidade_coluna];
+    int cruz[habilidade_linha][habilidade_coluna];
+    int octoedro[habilidade_linha][habilidade_coluna];
     int opcao;
     int navio1[3] = {3,3,3}, navio2[3] = {3,3,3}, navio3[3] = {3,3,3};
-    int navio1_vertical_linha = 2,navio1_ventical_coluna = 4;
+    int navio1_vertical_linha = 4,navio1_ventical_coluna = 1;
     int navio2_horizontal_linha = 7,navio2_horizontal_coluna = 4;
     int visualizar_novamente = 1;
+
+    // inicializando o tabuleiro do cone 
+    for(int i = 0; i  < habilidade_linha; i++)
+    {
+        for(int j = 0; j < habilidade_coluna; j++)
+        {
+            cone[i][j] = 0;
+        }
+    }
+
+    // inicializando o tabuleiro da cruz
+    for(int i = 0; i < habilidade_linha; i++)
+    {
+        for(int j = 0; j < habilidade_coluna; j++)
+        {
+            cruz[i][j] = 0;
+        }
+    }
+    // inicializando o tabuleiro do octoedro
+    for(int i = 0; i < habilidade_linha; i++)
+    {
+        for(int j = 0; j < habilidade_coluna; j++)
+        {
+            octoedro[i][j] = 0;
+        }
+    }
+
+
+    // adicionando a habilidade cone no tabuleiro
+    for(int i = 0; i < habilidade_linha; i++)
+    {
+        for(int j = 0; j < habilidade_coluna; j++)
+        {
+            // logica para adicionar a habilidade cone
+            if((i == 0 && j == 2) || (i == 1 && j == 1) || (i == 1 && j == 2) ||
+                (i == 1 && j == 3) || (i == 2 && (j >= 0 && j <= 4)))
+                {
+                    cone[i][j] = 5;
+                }
+
+        }
+
+    }
+    // adicionando a habilidade cruz no tabuleiro
+    for(int i = 0; i < habilidade_linha; i++)
+    {
+        for(int j = 0; j < habilidade_coluna; j++)
+        {   // logica para adicionar a habilidade cruz
+            cruz[2][i] = 5;
+            cruz[i][2] = 5;
+        }
+    }
+    // adicionando a habilidade octoedro no tabuleiro
+    for(int i = 0; i < habilidade_linha; i++)
+    {
+        for(int j = 0; j < habilidade_coluna; j++)
+        {   // logicas para adicionar o octoedro
+            octoedro[2][i] = 5;
+            octoedro[i][2] = 5;
+
+            if((i == 1 && j == 1) || (i == 1 && j == 3) || (i == 3 && j== 1) || (i == 3 && j == 3 ))
+            {
+                octoedro[i][j] = 5;
+            }
+        }
+    }
+
 
     // while para uma dinâmica melhor
     while(visualizar_novamente == 1) {
@@ -70,7 +142,7 @@ int main()
         scanf("%d", &opcao);
         linha(); // Função para exibição de linhas
 
-
+        // usando swtich para amplas escolhas do usuario 
         switch (opcao)
         {
         case 1:
@@ -78,7 +150,7 @@ int main()
         printf("  ");
         for(char letra = 'A'; letra <= 'J'; letra++)
         {
-            printf(" %c", letra);
+            printf(" %2c", letra);
         }
         printf("\n");
 
@@ -90,16 +162,153 @@ int main()
             for(int j = 0; j < Coluna; j++)
             {   
                 
-                printf(" %d", tabuleiro[i][j]);
+                printf(" %2d", tabuleiro[i][j]);
             }
             printf("\n");
         }
-        // Retorna FALSE
         
+        
+        linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+
+        // apresentando mais opções ao ususario
+        // imprimindo mensagem, anunciando que tera como usar habilidade
+        printf("Muito bem!\n");
+        printf("Conseguimos ver um pouco do tabuleiro e seus navios, que tal agora vermos habilidades\n");
+        printf("Você terá algumas opções abaixo, escolha uma delas\n");
+
+        printf("1. Habilidade CONE\n");
+        printf("2. Habilidade CRUZ\n");
+        printf("3. Habilidade OCTOPEDRO\n");
+        printf("Escolha uma: ");
+        scanf("%d", &opcao);
+
+
+        // novamente switch, para habilidades
+        switch(opcao)
+        {
+        case 1:
+            // bloco de código da habilidade cone
+            linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+            printf("ATIVAR HABILIDADE CONEEE NA ÁGUAAAAAAA\n");
+
+            for(int i = 0; i < habilidade_linha; i++)
+            {
+                for(int j = 0; j < habilidade_coluna; j++)
+                {
+                    if(cone[i][j] != 0)
+                    {
+                        tabuleiro[2 + i][3 + j] = cone[i][j];
+                    }
+                }
+            }
+            // essa parte adiciona o alfabeto
+                printf("   ");
+            for(char letra = 'A'; letra <= 'J'; letra++)
+            {
+                printf("%2c ", letra);
+            }
+            printf("\n");
+
+            for(int i = 0; i < Linha; i++)
+            {
+                printf("%2d", i + 1);
+                for(int j = 0; j < Coluna; j++)
+                {
+                    printf(" %2d", tabuleiro[i][j]);
+                    
+                }
+                printf("\n");
+            }
+            printf("---------------------------------------------------\n");
+            printf("A HABILIDADE CONE FOI SPAWNADA NA LOCALIZAÇÃO: F-5 \n");
+
 
 
             break;
         
+        case 2:
+            // Bloco de código da habilidade Cruz
+            linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+            printf("ATIVAR HABILIDADE CRUZ NA ÁGUAAAAAA!!\n");
+
+            for(int i = 0; i < habilidade_linha; i++)
+            {
+                for(int j = 0; j < habilidade_coluna; j++)
+                {
+                    if(cruz[i][j] != 0)
+                    {
+                        tabuleiro[2 + i][3 + j] = cruz[i][j];
+                    }
+                }
+            }
+
+                printf("   ");
+            for(char letra = 'A'; letra <= 'J'; letra++)
+            {
+                printf("%2c ", letra);
+            }
+            printf("\n");
+
+
+            for(int i = 0; i < Linha; i++)
+            {
+                printf("%2d", i + 1);
+                for(int j = 0; j < Linha; j++)
+                {
+                    printf(" %2d", tabuleiro[i][j]);
+                }
+                printf("\n");
+            }
+            printf("---------------------------------------------------\n");
+            printf("A HABILIDADE CRUZ FOI SPAWNADA NA LOCALIZAÇÃO: F-5 \n");
+
+
+
+            break;
+
+        case 3:
+            // bloco de código da habilidade octoedro
+            linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+            printf("ATIVAR HABILIDADE OCTOEDRO NA ÁGUAAAAA!!!\n");
+            
+            for(int i = 0 ;i < habilidade_linha; i++)
+            {
+                for(int j = 0; j < habilidade_coluna; j++)
+                {
+                    if(octoedro[i][j] != 0)
+                    {
+                        tabuleiro[2 + i][3 + j] = octoedro[i][j];
+                    }
+                }
+            }
+
+             printf("   ");
+            for(char letra = 'A'; letra <= 'J'; letra++)
+            {
+                printf("%2c ", letra);
+            }
+            printf("\n");
+
+
+            for(int i = 0; i < Linha; i++)
+            {
+                printf("%2d", i + 1);
+                for(int j = 0; j < Coluna; j++)
+                {
+                    printf(" %2d", tabuleiro[i][j]);
+                }
+                printf("\n");
+            }
+            printf("---------------------------------------------------\n");
+            printf("A HABILIDADE OCTOEDRO FOI SPAWNADA NA LOCALIZAÇÃO: F-5 \n");
+
+
+            break;
+        }
+
+            break;
+        
+        // Estrutura para adicionar emojis no tabuleiro
         case 2:
 
             // Estrutura para adicionar o alfabeto, nas colunas 
@@ -130,7 +339,169 @@ int main()
             }
             printf("\n");
         }
-        // Retorna FALSE
+            // Explicando sobre o sistema de habilidades
+            linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+            printf("Muito bem!\n");
+            printf("Conseguimos ver um pouco do tabuleiro e seus navios, que tal agora vermos habilidades\n");
+            printf("Você terá algumas opções abaixo, escolha uma delas\n");
+
+            printf("1. Habilidade CONE\n");
+            printf("2. Habilidade CRUZ\n");
+            printf("3. Habilidade OCTOEDRO\n");
+            printf("Escolha uma: ");
+            scanf("%d", &opcao);
+
+            switch(opcao)
+            {
+                // bloco de código da habilidade cone, versão emoji
+            case 1:
+
+                linha();
+                printf("ATIVAR HABILIDADE CONEEE NA ÁGUAAAAAAA\n");
+
+                for(int i = 0; i < habilidade_linha; i++)
+                {
+                    for(int j = 0; j < habilidade_coluna; j++)
+                    {
+                        if(cone[i][j] != 0)
+                        {
+                            tabuleiro[2 + i][3 + j] = cone[i][j];
+                        }
+                    }
+                }
+
+                    printf("  ");
+                for(char letra = 'A'; letra <= 'J'; letra++)
+                {
+                    printf("%2c ", letra);
+                }
+                printf("\n");
+
+                for(int i = 0; i < Linha; i++)
+                {
+                    printf("%2d", i + 1);
+                    for(int j = 0; j < Coluna; j++)
+                    {
+                        
+                    if(tabuleiro[i][j] == 0)
+                        {
+                            printf("🌊 ");
+                        }
+                        else if(tabuleiro[i][j] == 3)
+                        {
+                            printf("🚢 ");
+                        }
+                        else if(tabuleiro[i][j] == 5)
+                        {
+                            printf("💥 ");
+                        }
+                        }
+                        printf("\n");
+                }
+                printf("---------------------------------------------------\n");
+                printf("A HABILIDADE CONE FOI SPAWNADA NA LOCALIZAÇÃO: F-5 \n");
+
+                break;
+
+            case 2:
+            // bloco de código da habilidade cruz, versão emoji
+            linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+            printf("ATIVAR HABILIDADE CRUZ NA ÁGUAAAAAA!!\n");
+
+            for(int i = 0; i < habilidade_linha; i++)
+            {
+                for(int j = 0; j < habilidade_coluna; j++)
+                {
+                    if(cruz[i][j] != 0)
+                    {
+                        tabuleiro[2 + i][3 + j] = cruz[i][j];
+                    }
+                }
+            }
+
+                printf("  ");
+            for(char letra = 'A'; letra <= 'J'; letra++)
+            {
+                printf("%2c ", letra);
+            }
+            printf("\n");
+
+
+            for(int i = 0; i < Linha; i++)
+            {
+                printf("%2d ", i + 1);
+                for(int j = 0; j < Linha; j++)
+                {
+                    if(tabuleiro[i][j] == 0)
+                    {
+                        printf("🌊 ");
+                    }
+                    else if(tabuleiro[i][j] == 3)
+                    {
+                        printf("🚢 ");
+                    }
+                    else if(tabuleiro[i][j] == 5)
+                    {
+                        printf("💥 ");
+                    }
+                }
+                printf("\n");
+            }
+
+                printf("---------------------------------------------------\n");
+                printf("A HABILIDADE CRUZ FOI SPAWNADA NA LOCALIZAÇÃO: F-5 \n");
+                break;
+            case 3:
+                // bloco de código da habilidade octoedro, versão emoji
+                linha(); // função para adicionar linhas, deixar o ambiente mais organziado
+                printf("ATIVAR HABILIDADE OCTOEDROOO NA ÁGUAAAAAA!!\n");
+
+                for(int i = 0; i < habilidade_linha; i++)
+                {
+                    for(int j = 0; j < habilidade_coluna; j++)
+                    {
+                        if(octoedro[i][j] != 0)
+                        {
+                            tabuleiro[2 + i][3 + j] = octoedro[i][j];
+                        }
+                    }
+                }
+
+                    printf("  ");
+                for(char letra = 'A'; letra <= 'J'; letra++)
+                {
+                    printf("%2c ", letra);
+                }
+                printf("\n");
+
+
+                for(int i = 0; i < Linha; i++)
+                {
+                    printf("%2d ", i + 1);
+                    for(int j = 0; j < Linha; j++)
+                    {
+                        if(tabuleiro[i][j] == 0)
+                        {
+                            printf("🌊 ");
+                        }
+                        else if(tabuleiro[i][j] == 3)
+                        {
+                            printf("🚢 ");
+                        }
+                        else if(tabuleiro[i][j] == 5)
+                        {
+                            printf("💥 ");
+                        }
+                    }
+                    printf("\n");
+                }
+                    printf("---------------------------------------------------\n");
+                    printf("A HABILIDADE OCTOEDRO FOI SPAWNADA NA LOCALIZAÇÃO: F-5 \n");
+
+                break;
+
+            }
+
     
             break;
         }
@@ -144,6 +515,7 @@ int main()
 
        
     }
+    // mensagem de finalização
     printf("Obrigado por jogar! Até mais! 👋\n");
     return 0;
 
